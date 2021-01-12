@@ -1,4 +1,4 @@
-        def templatePath = 'nodejs-mongodb-example'
+        def templatePath = 'https://github.com/ankur1608/nodejs-ex-new.git'
         // name of the template that will be created
         def templateName = 'nodejs-mongodb-example'
         // NOTE, the "pipeline" directive/closure from the declarative pipeline syntax needs to include, or be nested outside,
@@ -28,34 +28,34 @@
                         }
                     }
                 }
-//                stage('cleanup') {
-//                    steps {
-//                        script {
-//                            openshift.withCluster() {
-//                                openshift.withProject() {
-//                                    // delete everything with this template label
-//                                    openshift.selector("all", [ template : templateName ]).delete()
-//                                    // delete any secrets with this template label
-//                                    if (openshift.selector("secrets", templateName).exists()) {
-//                                        openshift.selector("secrets", templateName).delete()
-//                                    }
-//                                }
-//                            }
-//                        } // script
-//                    } // steps
-//                } // stage
-//                stage('create') {
-//                    steps {
-//                        script {
-//                            openshift.withCluster() {
-//                                openshift.withProject() {
-//                                    // create a new application from the templatePath//
-//                                    openshift.newApp(templatePath)
-//                                }
-//                            }
-//                        } // script
-//                    } // steps
-//                } // stage
+                stage('cleanup') {
+                    steps {
+                        script {
+                            openshift.withCluster() {
+                                openshift.withProject() {
+                                    // delete everything with this template label
+                                    openshift.selector("all", [ template : templateName ]).delete()
+                                    // delete any secrets with this template label
+                                    if (openshift.selector("secrets", templateName).exists()) {
+                                        openshift.selector("secrets", templateName).delete()
+                                    }
+                                }
+                            }
+                        } // script
+                    } // steps
+                } // stage
+                stage('create') {
+                    steps {
+                        script {
+                            openshift.withCluster() {
+                                openshift.withProject() {
+                                    // create a new application from the templatePath//
+                                    openshift.newApp(templatePath)
+                                }
+                            }
+                        } // script
+                    } // steps
+                } // stage
                 stage('build') {
                     steps {
                         script {
