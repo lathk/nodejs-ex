@@ -17,6 +17,17 @@
             }
 
             stages {
+                stage('preamble') {
+                    steps {
+                        script {
+                            openshift.withCluster() {
+                                openshift.withProject() {
+                                    echo "Using project: ${openshift.project()}"
+                                }
+                            }
+                        }
+                    }
+                }                
                 stage('build') {
                     steps {
                         script {
