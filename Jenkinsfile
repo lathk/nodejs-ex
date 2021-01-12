@@ -1,6 +1,6 @@
-        def templatePath = 'https://github.com/ankur1608/nodejs-ex'
+        def templatePath = 'nodejs-mongodb-example'
         // name of the template that will be created
-        def templateName = 'nodejs-ex'
+        def templateName = 'nodejs-mongodb-example'
         // NOTE, the "pipeline" directive/closure from the declarative pipeline syntax needs to include, or be nested outside,
         // and "openshift" directive/closure from the OpenShift Client Plugin for Jenkins.  Otherwise, the declarative pipeline engine
         // will not be fully engaged.
@@ -39,10 +39,7 @@
                                     if (openshift.selector("secrets", templateName).exists()) {
                                         openshift.selector("secrets", templateName).delete()
                                     }
-                                    if (openshift.selector("bc", 'nodejs-ex').exists()) {
-                                        openshift.selector("bc", 'nodejs-ex').delete()
-                                    }                                        
-                                }
+                                 }
                             }
                         } // script
                     } // steps
@@ -59,20 +56,20 @@
                         } // script
                     } // steps
                 } // stage
-//                stage('build') {
-//                    steps {
-//                        script {
-//                            openshift.withCluster() {
-//                                openshift.withProject() {
-//                                    def builds = openshift.selector("bc", templateName).related('builds')
-//                                    builds.untilEach(1) {
-//                                        return (it.object().status.phase == "Complete")
-//                                    }
-//                                }
-//                            }
-//                        } // script
-//                    } // steps
-//                } // stage
+                stage('build') {
+                    steps {
+                        script {
+                            openshift.withCluster() {
+                                openshift.withProject() {
+                                    def builds = openshift.selector("bc", templateName).related('builds')
+                                    builds.untilEach(1) {
+                                        return (it.object().status.phase == "Complete")
+                                    }
+                                }
+                            }
+                        } // script
+                    } // steps
+                } // stage
                 stage('deploy') {
                     steps {
                         script {
