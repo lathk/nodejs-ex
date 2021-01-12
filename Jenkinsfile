@@ -10,8 +10,7 @@
                 // spin up a node.js slave pod to run this build on
                 label 'nodejs'
               }
-            }     
-            
+            }
             options {
                 // set a timeout of 20 minutes for this pipeline
                 timeout(time: 5, unit: 'MINUTES')
@@ -23,16 +22,11 @@
                         script {
                             openshift.withCluster() {
                                 openshift.withProject() {
-                                    // create a new build from the templateName//
-                                    // openshift.start-build(templateName)
-                                       openshift.selector("bc", templateName).related('builds')
+                                    def builds = openshift.selector("bc", templateName).related('builds')
+                                    builds.untilEach(1) {
+                                        return (it.object().status.phase == "Complete")
+                                    }
                                 }
-       //                             {
-       //                             def builds = openshift.selector("bc", templateName).related('builds')
-       //                             builds.untilEach(1) {
-       //                                 return (it.object().status.phase == "Complete")
-       //                             }
-      //                          }
                             }
                         } // script
                     } // steps
@@ -51,6 +45,19 @@
                         } // script
                     } // steps
                 } // stage
+                stage('tag') {
+                    steps {
+                        script {
+                            openshift.withCluster() {
+                                openshift.withProject() {
+                                    // if everything else succeeded, tag the ${templateName}:latest image as ${templateName}-staging:latest
+                                    // a pipeline build config for the staging environment can watch for the ${templateName}-staging:latest
+                                    // image to change and then deploy it to the staging environment
+                                    openshift.tag("${templateName}:latest", "${templateName}-staging:latest")
+                                }
+                            }
+                        } // script
+                    } // steps
+                } // stage
             } // stages
-        } //pipeline
-      
+        } // pipeline
