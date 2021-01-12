@@ -13,7 +13,7 @@
             }
             options {
                 // set a timeout of 20 minutes for this pipeline
-                timeout(time: 5, unit: 'MINUTES')
+                timeout(time: 20, unit: 'MINUTES')
             }
 
             stages {
