@@ -34,7 +34,8 @@
                             openshift.withCluster() {
                                 openshift.withProject() {
                                     // create a new build from the templateName//
-                                    openshift.start-build(templateName)
+                                    // openshift.start-build(templateName)
+                                       openshift.selector("bc", templateName).related('builds')
                                 }
        //                             {
        //                             def builds = openshift.selector("bc", templateName).related('builds')
