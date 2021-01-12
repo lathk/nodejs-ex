@@ -1,4 +1,4 @@
-        def templatePath = 'https://github.com/ankur1608/nodejs-ex/blob/master/nodejs-mongodb.json'
+        def templatePath = 'http://192.168.243.240/nodejs-mongodb.json'
         // name of the template that will be created
         def templateName = 'nodejs-mongodb-example'
         // NOTE, the "pipeline" directive/closure from the declarative pipeline syntax needs to include, or be nested outside,
