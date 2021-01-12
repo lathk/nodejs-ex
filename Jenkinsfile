@@ -39,6 +39,9 @@
                                     if (openshift.selector("secrets", templateName).exists()) {
                                         openshift.selector("secrets", templateName).delete()
                                     }
+                                    if (openshift.selector("bc", templateName).exists()) {
+                                        openshift.selector("bc", templateName).delete()
+                                    }                                        
                                 }
                             }
                         } // script
