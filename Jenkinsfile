@@ -6,7 +6,7 @@
         // will not be fully engaged.
         pipeline {
             agent any
-            }
+            
             options {
                 // set a timeout of 20 minutes for this pipeline
                 timeout(time: 5, unit: 'MINUTES')
@@ -47,4 +47,5 @@
                     } // steps
                 } // stage
             } // stages
+        } //pipeline
       
