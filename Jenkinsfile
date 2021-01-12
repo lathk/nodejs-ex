@@ -5,11 +5,7 @@
         // and "openshift" directive/closure from the OpenShift Client Plugin for Jenkins.  Otherwise, the declarative pipeline engine
         // will not be fully engaged.
         pipeline {
-            agent {
-              node {
-                // spin up a node.js slave pod to run this build on
-                label 'nodejs'
-              }
+            agent any
             }
             options {
                 // set a timeout of 20 minutes for this pipeline
@@ -17,18 +13,7 @@
             }
 
             stages {
-                stage('preamble') {
-                    steps {
-                        script {
-                            openshift.withCluster() {
-                                openshift.withProject() {
-                                    echo "Using project: ${openshift.project()}"
-                                }
-                            }
-                        }
-                    }
-                }
-                stage('build') {
+                    stage('build') {
                     steps {
                         script {
                             openshift.withCluster() {
@@ -56,20 +41,6 @@
                                     openshift.selector("dc", templateName).related('pods').untilEach(1) {
                                         return (it.object().status.phase == "Running")
                                     }
-                                }
-                            }
-                        } // script
-                    } // steps
-                } // stage
-                stage('tag') {
-                    steps {
-                        script {
-                            openshift.withCluster() {
-                                openshift.withProject() {
-                                    // if everything else succeeded, tag the ${templateName}:latest image as ${templateName}-staging:latest
-                                    // a pipeline build config for the staging environment can watch for the ${templateName}-staging:latest
-                                    // image to change and then deploy it to the staging environment
-                                    openshift.tag("${templateName}:latest", "${templateName}-staging:latest")
                                 }
                             }
                         } // script
