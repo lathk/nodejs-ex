@@ -1,6 +1,6 @@
-        def templatePath = 'https://github.com/ankur1608/nodejs-ex-new.git'
+        def templatePath = 'https://github.com/ankur1608/nodejs-ex -l name=nodejs-mongodb-example'
         // name of the template that will be created
-        def templateName = 'nodejs-ex-new'
+        def templateName = 'nodejs-mongodb-example'
         // NOTE, the "pipeline" directive/closure from the declarative pipeline syntax needs to include, or be nested outside,
         // and "openshift" directive/closure from the OpenShift Client Plugin for Jenkins.  Otherwise, the declarative pipeline engine
         // will not be fully engaged.
@@ -13,7 +13,7 @@
             }
             options {
                 // set a timeout of 20 minutes for this pipeline
-                timeout(time: 20, unit: 'MINUTES')
+                timeout(time: 5, unit: 'MINUTES')
             }
 
             stages {
@@ -39,8 +39,8 @@
                                     if (openshift.selector("secrets", templateName).exists()) {
                                         openshift.selector("secrets", templateName).delete()
                                     }
-                                    if (openshift.selector("bc", templateName).exists()) {
-                                        openshift.selector("bc", templateName).delete()
+                                    if (openshift.selector("bc", 'nodejs-ex').exists()) {
+                                        openshift.selector("bc", 'nodejs-ex').delete()
                                     }                                        
                                 }
                             }
