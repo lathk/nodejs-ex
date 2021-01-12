@@ -13,7 +13,7 @@
             }
 
             stages {
-                    stage('build') {
+                stage('build') {
                     steps {
                         script {
                             openshift.withCluster() {
