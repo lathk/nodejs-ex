@@ -70,6 +70,12 @@
                         } // script
                     } // steps
                 } // stage
+                stage('Approval') {
+                      input {
+                          message "Proceed to deploy?"
+                          ok "YES"
+                     }
+                }
                 stage('deploy') {
                     steps {
                         script {
