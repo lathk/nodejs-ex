@@ -75,6 +75,9 @@
                           message "Proceed to deploy?"
                           ok "YES"
                      }
+                     steps {
+                           echo "Approved"
+                     }   
                 }
                 stage('deploy') {
                     steps {
